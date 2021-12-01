@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.sidebar {
+  @apply w-64 bg-gray-dark shadow flex-col justify-between;
+}
+
+.sidebar-route {
+  @apply rounded-3xl flex w-full justify-between cursor-pointer items-center mb-4 p-2.5 pl-8 font-Quicksand text-2xl;
+}
+
+.H1-header {
+  @apply ml-14 mt-12 font-Quicksand font-semibold text-4xl text-gray-dark;
+}
+
+.H1-header2 {
+  @apply mt-12 font-Quicksand font-semibold text-4xl text-green;
+}
+
+.H2-header {
+  @apply ml-14 mt-2 font-Quicksand font-medium text-lg text-gray-dark;
+}
+
+.H2-header2 {
+  @apply mt-2 font-Quicksand font-normal text-lg text-white;
+}
