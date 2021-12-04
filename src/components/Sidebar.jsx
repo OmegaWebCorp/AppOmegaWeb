@@ -34,9 +34,10 @@ const Sidebar = () => {
           <SidebarLinks />
         </div>
       </div>
-      <div className='flex md:hidden w-full justify-between bg-gray-800 p-2 text-white'>
+      <div className='flex md:hidden w-full justify-between bg-green p-2 text-gray-dark'>
+        <span className='font-Quicksand font-bold text-lg'>OmegaWeb</span>
         <i className={`fas fa-${open ? 'times' : 'bars'}`} onClick={() => setOpen(!open)} />
-        <i className='fas fa-home' />
+        {/*<i className='fas fa-home'/>*/}
       </div>
       {open && <ResponsiveSidebar />}
       {/* Sidebar ends */}
