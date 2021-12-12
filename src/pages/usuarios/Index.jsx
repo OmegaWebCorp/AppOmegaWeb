@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Users = () => {
+const IndexUsuarios = () => {
     return (
         <div>
           <div className='H1-header'>Usuarios</div>
@@ -10,4 +10,4 @@ const Users = () => {
     )
 }
 
-export default Users
+export default IndexUsuarios

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const NewProject = () => {
+const CrearProyecto = () => {
     return (
         <div>
             <div className='H1-header'>Crear proyecto</div>
@@ -10,4 +10,4 @@ const NewProject = () => {
     )
 }
 
-export default NewProject
+export default CrearProyecto;

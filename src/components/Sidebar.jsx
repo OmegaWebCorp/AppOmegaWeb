@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
+//recordar para roles el useUser(hook roles) y conditional render
+
 const SidebarLinks = () => {
   return (
     <ul className='mt-12 text-white text-xl'>
-      <SidebarRoute to='/myuser' title='Mi Perfil' icon='far fa-address-card' />
-      <SidebarRoute to='/' title='Proyectos' icon='fas fa-chart-line' />
-      <SidebarRoute to='/projects/newproject' title='Crear Proyecto' icon='far fa-plus-square' />
-      <SidebarRoute to='/users' title='Usuarios' icon='far fa-address-book' />
-      <SidebarRoute to='/enrollments' title='Inscripciones' icon='far fa-edit' />
+      <SidebarRoute to='/miperfil' title='Mi Perfil' icon='far fa-address-card' />
+      <SidebarRoute to='/index' title='Proyectos' icon='fas fa-chart-line' />
+      <SidebarRoute to='/proyectos/crearproyecto' title='Crear Proyecto' icon='far fa-plus-square' />
+      <SidebarRoute to='/usuarios' title='Usuarios' icon='far fa-address-book' />
+      <SidebarRoute to='/inscripciones' title='Inscripciones' icon='far fa-edit' />
       <SidebarRoute to='/auth/login' title='Salir' icon='fas fa-sign-out-alt' />      
     </ul>
   );
@@ -26,8 +28,7 @@ const Sidebar = () => {
   const [open, setOpen] = useState(true);
   return (
     <div className='flex flex-col md:flex-row flex-no-wrap md:h-full'>
-      {/* Sidebar starts */}
-
+      
       <div className='sidebar hidden md:flex'>
         <div className='px-8'>
           <Logo />
@@ -37,10 +38,9 @@ const Sidebar = () => {
       <div className='flex md:hidden w-full justify-between bg-green p-2 text-gray-dark'>
         <span className='font-Quicksand font-bold text-lg'>OmegaWeb</span>
         <i className={`fas fa-${open ? 'times' : 'bars'}`} onClick={() => setOpen(!open)} />
-        {/*<i className='fas fa-home'/>*/}
+        
       </div>
       {open && <ResponsiveSidebar />}
-      {/* Sidebar ends */}
     </div>
   );
 };

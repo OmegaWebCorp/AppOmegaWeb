@@ -1,6 +1,6 @@
 import React from 'react'
 
-const MyUser = () => {
+const IndexMiperfil = () => {
     return (
         <div>
           <div className='H1-header'>Mi perfil</div>
@@ -9,4 +9,4 @@ const MyUser = () => {
     )
 }
 
-export default MyUser
+export default IndexMiperfil;

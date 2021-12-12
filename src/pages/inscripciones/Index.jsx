@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Enrollments = () => {
+const IndexInscripciones = () => {
     return (
         <div>
             <div className='H1-header'>Inscripciones</div>
@@ -9,4 +9,4 @@ const Enrollments = () => {
     )
 }
 
-export default Enrollments
+export default IndexInscripciones;
