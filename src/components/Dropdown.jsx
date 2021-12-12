@@ -13,7 +13,7 @@ const DropDown = ({ label, name, defaultValue = '', required, options }) => {
       <select
         required={required}
         name={name}
-        className='input w-full h-10 px-4 mt-1 mb-2 font-medium text-gray border rounded-lg focus:shadow-outline'
+        className='input w-full h-10 px-4 mt-1 mb-1 font-medium text-gray border rounded-lg focus:shadow-outline'
         value={selectedValue}
         onChange={(e) => setSelectedValue(e.target.value)}>
         {optionsSelect.map((o) => {

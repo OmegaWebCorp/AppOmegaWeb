@@ -33,14 +33,17 @@ const Index = () => {
 
   if (queryData.Proyectos) {
     return (
-      <div className='p-10 flex flex-col'>
+      // ** Encabezado sección **
+      <div>
+      <div className='H1-header'>Proyectos</div>
+      <p className='H2-header'>Aquí puedes ver todos tus proyectos.</p>
+      <div className='p-14 flex flex-col'>
         <div className='flex w-full items-center justify-center'>
-          <h1 className='text-2xl font-bold text-gray-900'>Lista de Proyectos</h1>
         </div>
         {/** link para crear un proyecto desde ADMINISTRADOR **/}
         <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
           <div className='my-2 self-end'>
-            <button className='bg-indigo-500 text-gray-50 p-2 rounded-lg shadow-lg hover:bg-indigo-400'>
+            <button className='bg-gray-lightest text-gray-dark p-2 rounded-lg shadow-lg hover:bg-green'>
               <Link to='/proyectos/CrearProyecto'>Crear nuevo proyecto</Link>
             </button>
           </div>
@@ -48,6 +51,7 @@ const Index = () => {
         {queryData.Proyectos.map((proyecto) => {
           return <AccordionProyecto proyecto={proyecto} />;
         })}
+      </div>
       </div>
     );
   }
@@ -59,19 +63,21 @@ const AccordionProyecto = ({ proyecto }) => {
   const [showDialog, setShowDialog] = useState(false);
   return (
     <>
+      {/*** Estilos accordion ***/}
       <AccordionStyled>
-        <AccordionSummaryStyled expandIcon={<i className='fas fa-chevron-down' />}>
+        <AccordionSummaryStyled expandIcon={<i className='fas fa-chevron-down text-green' />}>
           <div className='flex w-full justify-between'>
-            <div className='uppercase font-bold text-gray-100 '>
+            <div className='H3-header1'>
               {proyecto.nombre} - {proyecto.estado}
             </div>
           </div>
         
+        {/*** Estilos botón editar proyecto ***/}
         </AccordionSummaryStyled>
         <AccordionDetailsStyled>
           <PrivateComponent roleList={['ADMINISTRADOR']}>
             <i
-              className='mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400'
+              className='mx-4 fas fa-pen text-orange hover:text-orange'
               onClick={() => {
                 setShowDialog(true);
               }}
@@ -83,15 +89,17 @@ const AccordionProyecto = ({ proyecto }) => {
               estado={proyecto.estado}
               inscripciones={proyecto.inscripciones}
             />
+          {/*** Estilos internos accordion ***/}
           </PrivateComponent>
-          <div>Liderado Por: {proyecto.lider.correo}</div>
-          <div className='flex'>
+          <div className='mt-4 font-Quicksand font-medium text-gray-dark'>LIDERADO POR: {proyecto.lider.correo}</div>
+          <div className='flex H4-gray items-left'>
             {proyecto.objetivos.map((objetivo) => {
               return <Objetivo tipo={objetivo.tipo} descripcion={objetivo.descripcion} />;
             })}
           </div>
         </AccordionDetailsStyled>
       </AccordionStyled>
+        
       <Dialog
         open={showDialog}
         onClose={() => {
@@ -137,10 +145,10 @@ const FormEditProyecto = ({ _id }) => {
     </div>
   );
 };
-
+ {/*** Estilos internos accordion OBJETIVOS ***/}
 const Objetivo = ({ tipo, descripcion }) => {
   return (
-    <div className='mx-5 my-4 bg-gray-50 p-8 rounded-lg flex flex-col items-center justify-center shadow-xl'>
+    <div className='mx-5 my-4 p-8 rounded-lg border border-gray-light flex flex-col items-left justify-center shadow-xl'>
       <div className='text-lg font-bold'>{tipo}</div>
       <div>{descripcion}</div>
       <PrivateComponent roleList={['ADMINISTRADOR']}>

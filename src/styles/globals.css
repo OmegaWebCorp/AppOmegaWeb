@@ -34,11 +34,11 @@
   @apply mt-2 font-Quicksand font-normal text-lg text-white;
 }
 
-/*texto H4 blanco secciones*/
+/*texto H4 blanco secciones, inputs*/
 .H4-paragraph {
   @apply mt-2 font-Quicksand font-normal text-sm text-white;
 }
-
+/*texto H4 gris secciones, inputs*/
 .H4-gray {
   @apply mt-2 font-Quicksand font-normal text-sm text-gray-dark;
 }
@@ -46,4 +46,9 @@
 /*texto H5 gris footer*/
 .H5-small {
   @apply mt-4 font-Quicksand font-normal text-sm text-gray;
+}
+
+/*texto H3 gris secciones*/
+.H3-header1 {
+  @apply mt-2 font-Quicksand font-medium text-lg text-white;
 }
