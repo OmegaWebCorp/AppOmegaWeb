@@ -1,3 +1,5 @@
+// importado en App.js
+
 import { createContext, useContext } from 'react';
 
 export const AuthContext = createContext(null);

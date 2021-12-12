@@ -16,7 +16,7 @@ import { GET_USUARIO } from 'graphql/miperfil/queries';
 // ** import ROLES-enums
 import { Enum_EstadoUsuario } from 'utils/enums';
 
-const IndexMiperfil = () => {
+const EditarUsuario = () => {
 
   const { form, formData, updateFormData } = useFormData(null);
   const { _id } = useParams();
@@ -42,30 +42,33 @@ const IndexMiperfil = () => {
 
   useEffect(() => {
     if (mutationData) {
-      toast.success('Tus datos se editarón correctamente');
+      toast.success('Usuario editado correctamente');
     }
   }, [mutationData]);
 
   useEffect(() => {
     if (mutationError) {
-      toast.error('Error modificando tus datos');
+      toast.error('Error modificando el usuario');
     }
 
     if (queryError) {
-      toast.error('Error consultando los datos');
+      toast.error('Error consultando el usuario');
     }
   }, [queryError, mutationError]);
 
   if (queryLoading) return <div>Cargando....</div>;
 
-    return (
+  return (
 
-      // ** Encabezado sección **
+    // ** Encabezado sección **
 
-        <div>
-          <div className='H1-header'>Mi perfil</div>
-          <p className='H2-header'>Aquí puedes editar y actualizar tu información.</p>  
-        <div className='flew flex-col w-full h-full items-center justify-center p-10 H4-gray'>
+    <div>
+      <div className='H1-header'>Editar usuario</div>
+      <p className='H2-header'>Aquí puedes editar y actualizar la información del usuario.</p>
+      <div className='flew flex-col w-full h-full items-center justify-center p-10 H4-gray'>
+        <Link to='/usuarios.jsx'>
+          <i className='fas fa-arrow-left text-gray cursor-pointer font-bold text-xl hover:text-gray-dark' />
+        </Link>
 
         <form
           onSubmit={submitForm}
@@ -74,35 +77,35 @@ const IndexMiperfil = () => {
           className='flex flex-col items-left ml-5 h-90 w-80'
         >
           <Input
-            label='Nombre:'
+            label='Nombre de la persona:'
             type='text'
             name='nombre'
             //defaultValue={queryData.Usuario.nombre}
             required={true}
           />
           <Input
-            label='Apellido:'
+            label='Apellido de la persona:'
             type='text'
             name='apellido'
             //defaultValue={queryData.Usuario.apellido}
             required={true}
           />
           <Input
-            label='Correo:'
+            label='Correo de la persona:'
             type='email'
             name='correo'
             //defaultValue={queryData.Usuario.correo}
             required={true}
           />
           <Input
-            label='Documento:'
+            label='Identificación de la persona:'
             type='text'
             name='identificacion'
             //defaultValue={queryData.Usuario.identificacion}
             required={true}
           />
           <DropDown
-            label='Estado:'
+            label='Estado de la persona:'
             name='estado'
             //defaultValue={queryData.Usuario.estado}
             required={true}
@@ -116,8 +119,8 @@ const IndexMiperfil = () => {
           />
         </form>
       </div>
-      </div>
-    );
+    </div>
+  );
 };
 
-export default IndexMiperfil;
+export default EditarUsuario;

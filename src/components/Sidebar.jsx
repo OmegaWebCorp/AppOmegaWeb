@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-//recordar para roles el useUser(hook roles) y conditional render
+// Recordar para roles useUser(hook roles) y conditional render.
 
 const SidebarLinks = () => {
   return (
@@ -74,7 +74,7 @@ const SidebarRoute = ({ to, title, icon }) => {
       >
         <div className='flex items-center'>
           <i className={icon} />
-          <span className='text-sm  ml-2'>{title}</span>
+          <span className='text-sm ml-2'>{title}</span>
         </div>
       </NavLink>
     </li>

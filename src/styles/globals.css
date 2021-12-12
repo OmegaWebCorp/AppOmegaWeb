@@ -39,6 +39,10 @@
   @apply mt-2 font-Quicksand font-normal text-sm text-white;
 }
 
+.H4-gray {
+  @apply mt-2 font-Quicksand font-normal text-sm text-gray-dark;
+}
+
 /*texto H5 gris footer*/
 .H5-small {
   @apply mt-4 font-Quicksand font-normal text-sm text-gray;

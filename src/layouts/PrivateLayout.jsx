@@ -1,12 +1,16 @@
-import Sidebar from 'components/Sidebar';
-import { Outlet, useNavigate } from 'react-router';
 import React, { useEffect, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router';
 import { ToastContainer } from 'react-toastify';
-import { useMutation } from '@apollo/client';
-import { useAuth } from 'context/authContext';
-import { REFRESH_TOKEN } from 'graphql/auth/mutations';
-import PrivateRoute from 'components/PrivateRoute';
 import 'react-toastify/dist/ReactToastify.css';
+// ** import @apollo
+import { useMutation } from '@apollo/client';
+// ** imports contexts (transversales)
+import { useAuth } from 'context/authContext';
+// ** import gql mutations
+import { REFRESH_TOKEN } from 'graphql/auth/mutations';
+// ** import components
+import Sidebar from 'components/Sidebar';
+// import PrivateRoute from 'components/PrivateRoute';
 
 const PrivateLayout = () => {
   const navigate = useNavigate();
@@ -16,7 +20,7 @@ const PrivateLayout = () => {
   const [refreshToken, { data: dataMutation, loading: loadingMutation, error: errorMutation }] =
     useMutation(REFRESH_TOKEN);
 
-    useEffect(() => {
+  useEffect(() => {
     refreshToken();
   }, [refreshToken]);
 
@@ -40,7 +44,7 @@ const PrivateLayout = () => {
       <div className='flex w-full h-full'>
         <div className='w-full h-full  overflow-y-scroll'>
           <Outlet />
-          </div>
+        </div>
       </div>
       <ToastContainer />
     </div>

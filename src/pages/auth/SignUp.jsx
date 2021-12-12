@@ -1,30 +1,61 @@
-import React from 'react'
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
+// ** import @apollo
+import { useMutation } from '@apollo/client';
+// ** import components
 import Input from 'components/Input';
 import LoadingButton from 'components/LoadingButton';
-import { Link } from 'react-router-dom';
+import DropDown from 'components/Dropdown';
+// ** import contexts
+import { useAuth } from 'context/authContext';
+// ** import hooks
+import useFormData from 'hooks/useFormData';
+// ** import gql mutations
+import { REGISTRO } from 'graphql/auth/mutations';
+// ** import ROLES-enums
+import { Enum_Rol } from 'utils/enums';
+
 
 const SignUp = () => {
-    return (
-        /*<div className='flex flex-col items-center justify-center w-full h-full p-10'>
-           <div className='H1-header2'>Regístrate</div>
-           <span className='H2-header2 text-white'>Ingresa para empezar a gestionar tus proyectos.</span>    
-        </div>*/
+    const { setToken } = useAuth();
+    const navigate = useNavigate();
+    const { form, formData, updateFormData } = useFormData();
 
-        // Pendiente completar funciones, dejar los required en true.
-        // Incluir en form los submit, onchange y ref.
-        // Incluir función de LoadingButton.
+    const [registro, { data: dataMutation, loading: loadingMutation, error: errorMutation }] =
+        useMutation(REGISTRO);
+
+    const submitForm = (e) => {
+        e.preventDefault();
+        registro({ variables: formData });
+    };
+
+    useEffect(() => {
+        if (dataMutation) {
+            if (dataMutation.registro.token) {
+                setToken(dataMutation.registro.token);
+                navigate('/index');
+            }
+        }
+    }, [dataMutation, setToken, navigate]);
+
+    return (
+
+        // ** Encabezado sección y Formulario de registro **
 
         <div className='flex flex-col items-center justify-center w-full h-full'>
             <div className='box-content h-90 w-80 p-6 border rounded-xl border-gray'>
                 <div className='H1-header2'>Regístrate</div>
-                <form className='flex flex-col w-30 min-w-full md:min-w-50'>
-                        <Input label='Nombre:' name='nombre' type='text' required={false} />
-                        <Input label='Apellido:' name='apellido' type='text' required={false} />
-                        <Input label='Documento:' name='identificacion' type='text' required={false} />
-                        {/*<DropDown label='Rol deseado:' name='rol' required={true} options={Enum_Rol} />*/}
-                        <Input label='Correo:' name='correo' type='email' rrequired={false} />
-                        <Input label='Contraseña:' name='password' type='password' required={false} />
+                <form className='flex flex-col w-30 min-w-full md:min-w-50 H4-paragraph' onSubmit={submitForm} onChange={updateFormData} ref={form}>
+                    <Input label='Nombre:' name='nombre' type='text' required={true} />
+                    <Input label='Apellido:' name='apellido' type='text' required={true} />
+                    <Input label='Documento:' name='identificacion' type='text' required={true} />
+                    <DropDown label='Rol:' name='rol' required={true} options={Enum_Rol} />
+                    <Input label='Correo:' name='correo' type='email' required={true} />
+                    <Input label='Contraseña:' name='password' type='password' required={true} />
                     <LoadingButton
+                        disabled={Object.keys(formData).length === 0}
+                        loading={false}
                         text='Registrarme'
                     />
                 </form>

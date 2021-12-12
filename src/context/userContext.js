@@ -1,3 +1,5 @@
+// importado en App.js
+
 import { createContext, useContext } from 'react';
 
 export const UserContext = createContext(null);
@@ -6,9 +8,9 @@ export const useUser = () => {
   return useContext(UserContext);
 };
 
-/*
-//Funciones o conponentes que envuelven a otros. 
+// ** Funciones o conponentes que envuelven a otros ** 
 
+/*
 import { createContext, useContext, useReducer } from 'react';
 
 const UserContext = createContext(null);

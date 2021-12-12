@@ -1,4 +1,13 @@
-import React from 'react'
+
+import React, { useEffect } from 'react';
+/*
+import { useMutation, useQuery } from '@apollo/client';
+import PrivateRoute from 'components/PrivateRoute';
+import { toast } from 'react-toastify';
+import LoadingButton from 'components/LoadingButton';
+import { GET_INSCRIPCIONES } from 'graphql/inscripciones/queries';
+import { APROBAR_INSCRIPCION } from 'graphql/inscripciones/mutations';
+*/
 
 const IndexInscripciones = () => {
     return (

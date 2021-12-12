@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ApolloProvider, ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import jwt_decode from 'jwt-decode';
-// imports contexts (transversales)
+// ** imports @apollo
+import { ApolloProvider, ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
+// ** imports contexts (transversales)
 import { AuthContext } from 'context/authContext';
 import { setContext } from '@apollo/client/link/context';
 import { UserContext } from 'context/userContext';
-// imports layouts secciones
+// ** imports layouts secciones
 import AuthLayout from 'layouts/AuthLayout';
 import PrivateLayout from 'layouts/PrivateLayout';
-// imports secciones
+// ** imports secciones
 import Login from 'pages/auth/Login';
 import SignUp from 'pages/auth/SignUp';
 import IndexMiperfil from 'pages/miperfil/Index';
 import Index from 'pages/proyectos/Index';
 import CrearProyecto from 'pages/proyectos/CrearProyecto';
 import IndexUsuarios from 'pages/usuarios/Index';
+import EditarUsuario from 'pages/usuarios/EditarUsuario';
 import IndexInscripciones from 'pages/inscripciones/Index';
-// imports estilos
+// ** imports estilos
 import 'styles/globals.css';
 
 
@@ -79,6 +81,7 @@ function App() {
                 <Route path='/index' element={<Index />} />
                 <Route path='/proyectos/crearproyecto' element={<CrearProyecto />} />
                 <Route path='/usuarios' element={<IndexUsuarios />} />
+                <Route path='/usuarios/editarusuarios' element={<EditarUsuario />} />
                 <Route path='/inscripciones/' element={<IndexInscripciones />} />            
               </Route>
               <Route path='/auth' element={<AuthLayout />}>
