@@ -34,55 +34,54 @@ const useStyles = makeStyles({
     }
   })
 
-
 const IndexInscripciones = () => {
-
     const classes = useStyles();
-
-    const { data, error, loading } = useQuery(GET_INSCRIPCIONES);
-    console.log(data)
-    /*const { ID, estado, proyecto, estudiante, fechaIngreso} = data;*/
+    const { data: queryData, loading, error } = useQuery(GET_INSCRIPCIONES);
 
     useEffect(() => {
-      if (error) {
-        toast.error('Error consultando inscripciones');
-      }
-    }, [error]);
-  
-    if (loading) return <div>Cargando....</div>;
+      console.log('datos Inscripciones', queryData);
+    }, [queryData]);
 
-    return (
-        <div>
-            <div className='H1-header'>Inscripciones</div>
-            <p className='H2-header'>Aquí puedes ver y gestionar los estudiantes inscritos a un proyecto.</p>
-            <Table className = {classes.table}>
-                <TableHead>
-                    <TableRow className = {classes.thead}>
-                        <TableCell>Nombre del proyecto</TableCell>
-                        <TableCell>Nombre del estudiante</TableCell>
-                        <TableCell>Ingreso</TableCell>
-                        <TableCell>Egreso</TableCell>
-                        <TableCell>Estado</TableCell>
-                        <TableCell>Acciones</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {
-                        /*useQuery(GET_INSCRIPCIONES).map( data=>(
-                            <TableCell>{data.proyecto.nombre}</TableCell>
-                            <TableCell>{data.estudiante.id}</TableCell>
-                            <TableCell>{data.fechaIngreso}</TableCell>
-                            <TableCell>{data}</TableCell>
-                            <TableCell>{data.estado}</TableCell>
-                            <TableCell>
-                                <Button color="#26ed77" onClick={() => deleteSaleData(sale._id)} >Remove</Button>
-                            </TableCell>
-                        ))*/
-                    }
-                </TableBody>
-            </Table>
-        </div>
-    )
+    if (loading) return <div>Cargando...</div>;
+    
+    if (queryData.Inscripciones){
+        return (
+            <div>
+                <div className='H1-header'>Inscripciones</div>
+                <p className='H2-header'>Aquí puedes ver y gestionar los estudiantes inscritos a un proyecto.</p>
+                <Table className = {classes.table}>
+                    <TableHead>
+                        <TableRow className = {classes.thead}>
+                            <TableCell>Nombre del proyecto</TableCell>
+                            <TableCell>Nombre del estudiante</TableCell>
+                            <TableCell>Ingreso</TableCell>
+                            <TableCell>Egreso</TableCell>
+                            <TableCell>Estado</TableCell>
+                            <TableCell>Acciones</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {                            
+                            queryData.Inscripciones.map((Inscripcion) => {     
+                                return (  
+                                <TableRow className = {classes.row}>
+                                    <TableCell>{Inscripcion.proyecto.nombre}</TableCell>                            
+                                    <TableCell>{Inscripcion.estudiante.nombre}</TableCell>
+                                    <TableCell>Ingreso</TableCell>
+                                    <TableCell>Egreso</TableCell>
+                                    <TableCell>{Inscripcion.estado}</TableCell>
+                                    <TableCell>
+                                        <LoadingButton/>
+                                    </TableCell>
+                                </TableRow>    
+                            )
+                            })                            
+                        }
+                    </TableBody>
+                </Table>
+            </div>
+        )
+    }
 }
 
 export default IndexInscripciones;
