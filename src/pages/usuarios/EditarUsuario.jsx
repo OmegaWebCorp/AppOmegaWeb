@@ -11,8 +11,8 @@ import DropDown from 'components/Dropdown';
 // ** import hooks
 import useFormData from 'hooks/useFormData';
 // ** import gql mutations-queries
-import { EDITAR_USUARIO } from 'graphql/miperfil/mutations';
-import { GET_USUARIO } from 'graphql/miperfil/queries';
+import { EDITAR_USUARIO } from 'graphql/usuarios/mutations';
+import { GET_USUARIO } from 'graphql/usuarios/queries';
 // ** import ROLES-enums
 import { Enum_EstadoUsuario } from 'utils/enums';
 
@@ -91,17 +91,17 @@ const EditarUsuario = () => {
             required={true}
           />
           <Input
-            label='Correo de la persona:'
-            type='email'
-            name='correo'
-            //defaultValue={queryData.Usuario.correo}
-            required={true}
-          />
-          <Input
             label='Identificación de la persona:'
             type='text'
             name='identificacion'
             //defaultValue={queryData.Usuario.identificacion}
+            required={true}
+          />
+          <Input
+            label='Correo de la persona:'
+            type='email'
+            name='correo'
+            //defaultValue={queryData.Usuario.correo}
             required={true}
           />
           <DropDown
