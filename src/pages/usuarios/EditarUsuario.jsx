@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 // ** imports @apollo
 import { useQuery, useMutation } from '@apollo/client';
 // ** import components
@@ -20,6 +20,7 @@ const EditarUsuario = () => {
 
   const { form, formData, updateFormData } = useFormData(null);
   const { _id } = useParams();
+  let navigate = useNavigate();
 
   const {
     data: queryData,
@@ -38,6 +39,7 @@ const EditarUsuario = () => {
     editarUsuario({
       variables: { _id, ...formData },
     });
+    navigate('/usuarios')
   };
 
   useEffect(() => {
@@ -80,34 +82,35 @@ const EditarUsuario = () => {
             label='Nombre de la persona:'
             type='text'
             name='nombre'
-            //defaultValue={queryData.Usuario.nombre}
+            defaultValue={queryData.Usuario.nombre}
             required={true}
+
           />
           <Input
             label='Apellido de la persona:'
             type='text'
             name='apellido'
-            //defaultValue={queryData.Usuario.apellido}
+            defaultValue={queryData.Usuario.apellido}
             required={true}
           />
           <Input
             label='Correo de la persona:'
             type='email'
             name='correo'
-            //defaultValue={queryData.Usuario.correo}
+            defaultValue={queryData.Usuario.correo}
             required={true}
           />
           <Input
             label='Identificación de la persona:'
             type='text'
             name='identificacion'
-            //defaultValue={queryData.Usuario.identificacion}
+            defaultValue={queryData.Usuario.identificacion}
             required={true}
           />
           <DropDown
             label='Estado de la persona:'
             name='estado'
-            //defaultValue={queryData.Usuario.estado}
+            defaultValue={queryData.Usuario.estado}
             required={true}
             options={Enum_EstadoUsuario}
           />

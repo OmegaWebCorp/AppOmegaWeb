@@ -10,32 +10,34 @@ import PrivateRoute from 'components/PrivateRoute';
 import { GET_USUARIOS } from 'graphql/usuarios/queries';
 // ** import ROLES-enums
 import { Enum_Rol, Enum_EstadoUsuario } from 'utils/enums';
-import { Table, TableHead, TableCell, TableRow, TableBody, Button} from '@material-ui/core';
+import { Table, TableHead, TableCell, TableRow, TableBody, Button } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 
 
 const useStyles = makeStyles({
   table: {
-      align: 'center',
-      borderRadius: '10px',
-      width: '85%',
-      marginLeft: '7.5%',
-      marginTop: '3%'
+    align: 'center',
+    borderRadius: '10px',
+    width: '85%',
+    marginLeft: '7.5%',
+    marginTop: '3%'
   },
   thead: {
-      '& > *': {
-          width: 'auto',
-          fontSize: 17,
-          background: '#313C46',
-          color: '#FFFFFF',
-          family: 'Quicksand, SemiBold'
-      }
+    '& > *': {
+      width: 'auto',
+      fontSize: 17,
+      background: '#313C46',
+      color: '#FFFFFF',
+      family: 'Quicksand, SemiBold'
+    }
   },
   row: {
-      '& > *': {
-          fontSize: 15,
-          color: '#1a497a',
-          family: 'Quicksand,SemiBold'
-      }
+    '& > *': {
+      fontSize: 15,
+      color: '#1a497a',
+      family: 'Quicksand,SemiBold'
+    }
   }
 })
 
@@ -54,12 +56,11 @@ const IndexUsuarios = () => {
   return (
     <div>
       <div className='H1-header'>Usuarios</div>
-      <p className='H2-header'>Aquí puedes ver y asignar estados a los usuarios.</p>  
-      <div>
-        Datos Usuarios:
-        <Table className = {classes.table}>
+      <p className='H2-header'>Aquí puedes ver y asignar estados a los usuarios.</p>
+      <div className='p-14 flex flex-col'>
+        <Table className={classes.table}>
           <TableHead >
-            <TableRow className = {classes.thead}>
+            <TableRow className={classes.thead}>
               <TableCell>Nombre</TableCell>
               <TableCell>Apellidos</TableCell>
               <TableCell>Correo</TableCell>
@@ -70,11 +71,23 @@ const IndexUsuarios = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-          <TableCell>
-            <Link to={`/EditarUsuario`}>
-              <i className='fas fa-pen text-gray hover:text-orange cursor-pointer' />
-            </Link>
-          </TableCell>
+            {data.Usuarios.map((user) => {
+              return (
+                <TableRow key={user._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <TableCell component="th" scope="row">{user.nombre}</TableCell>
+                  <TableCell>{user.apellido}</TableCell>
+                  <TableCell>{user.correo}</TableCell>
+                  <TableCell>{user.identificacion}</TableCell>
+                  <TableCell>{user.rol}</TableCell>
+                  <TableCell>{user.estado}</TableCell>
+                  <TableCell align="center">
+                    <Link to={`/usuarios/${user._id}/editar`}>
+                      <FontAwesomeIcon icon={faPen} className='text-gray hover:text-orange cursor-pointer' />
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              )
+            })}
           </TableBody>
         </Table>
       </div>
