@@ -54,44 +54,52 @@ const IndexUsuarios = () => {
   if (loading) return <div>Cargando....</div>;
 
   return (
-    <div>
-      <div className='H1-header'>Usuarios</div>
-      <p className='H2-header'>Aquí puedes ver y asignar estados a los usuarios.</p>
-      <div className='p-14 flex flex-col'>
-        <Table className={classes.table}>
-          <TableHead >
-            <TableRow className={classes.thead}>
-              <TableCell>Nombre</TableCell>
-              <TableCell>Apellidos</TableCell>
-              <TableCell>Correo</TableCell>
-              <TableCell>Identificación</TableCell>
-              <TableCell>Rol</TableCell>
-              <TableCell>Estado</TableCell>
-              <TableCell>Editar</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.Usuarios.map((user) => {
-              return (
-                <TableRow key={user._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                  <TableCell component="th" scope="row">{user.nombre}</TableCell>
-                  <TableCell>{user.apellido}</TableCell>
-                  <TableCell>{user.correo}</TableCell>
-                  <TableCell>{user.identificacion}</TableCell>
-                  <TableCell>{user.rol}</TableCell>
-                  <TableCell>{user.estado}</TableCell>
-                  <TableCell align="center">
-                    <Link to={`/usuarios/${user._id}/editar`}>
-                      <FontAwesomeIcon icon={faPen} className='text-gray hover:text-orange cursor-pointer' />
-                    </Link>
-                  </TableCell>
-                </TableRow>
-              )
-            })}
-          </TableBody>
-        </Table>
+    <PrivateRoute roleList={['ADMINISTRADOR']}>
+      <div>
+        <div className='H1-header'>Usuarios</div>
+        <p className='H2-header'>Aquí puedes ver y asignar estados a los usuarios.</p>
+
+        <div>
+          
+          <Table className={classes.table}>
+            <TableHead >
+              <TableRow className={classes.thead}>
+                <TableCell>Nombre</TableCell>
+                <TableCell>Apellidos</TableCell>
+                <TableCell>Correo</TableCell>
+                <TableCell>Identificación</TableCell>
+                <TableCell>Rol</TableCell>
+                <TableCell>Estado</TableCell>
+                <TableCell>Editar</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data && data.Usuarios ? (
+                <>
+                  {data.Usuarios.map((u) => (
+                    <TableRow className={classes.row} key={u._id}>
+                      <TableCell>{u.nombre}</TableCell>
+                      <TableCell>{u.apellido}</TableCell>
+                      <TableCell>{u.correo}</TableCell>
+                      <TableCell>{u.identificacion}</TableCell>
+                      <TableCell>{Enum_Rol[u.rol]}</TableCell>
+                      <TableCell>{Enum_EstadoUsuario[u.estado]}</TableCell>
+                      <TableCell>
+                        <Link to={`/usuarios/${u._id}/e`}>
+                          <i className='fas fa-pen text-gray hover:text-green-dark cursor-pointer' />
+                        </Link>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </>
+              ) : (
+                <div>No autorizado</div>
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </div>
-    </div>
+    </PrivateRoute>
   );
 };
 

@@ -30,7 +30,7 @@ const EditarUsuario = () => {
     variables: { _id },
   });
 
-  const [editarUsuario, { data: mutationData, loading: mutationLoading, error: mutationError }] =
+  const [editarUsuario, { data: mutationData, loading: mutationLoading, error: mutationError },] =
     useMutation(EDITAR_USUARIO);
 
   const submitForm = (e) => {
@@ -68,8 +68,8 @@ const EditarUsuario = () => {
       <div className='H1-header'>Editar usuario</div>
       <p className='H2-header'>Aquí puedes editar y actualizar la información del usuario.</p>
       <div className='flew flex-col w-full h-full items-center justify-center p-10 H4-gray'>
-        <Link to='/usuarios.jsx'>
-          <i className='fas fa-arrow-left text-gray cursor-pointer font-bold text-xl hover:text-gray-dark' />
+        <Link to='/usuarios'>
+          <i className='fas fa-arrow-left text-gray cursor-pointer font-bold text-xl hover:text-green-dark' />
         </Link>
 
         <form
@@ -114,7 +114,7 @@ const EditarUsuario = () => {
             required={true}
             options={Enum_EstadoUsuario}
           />
-          {/*<span>Rol del usuario: {queryData.Usuario.rol}</span>*/}
+          <span>Rol del usuario: {queryData.Usuario.rol}</span>
           <LoadingButton
             disabled={Object.keys(formData).length === 0}
             loading={mutationLoading}
