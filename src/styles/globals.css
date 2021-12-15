@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*menú lateral*/
+.sidebar {
+  @apply w-64 bg-gray-dark shadow flex-col justify-between;
+}
+
+/*botones sidebar*/
+.sidebar-route {
+  @apply rounded-3xl flex w-full justify-between cursor-pointer items-center mb-4 p-2.5 pl-8 font-Quicksand text-2xl;
+}
+
+/*titulo H1 gris oscuro secciones*/
+.H1-header {
+  @apply ml-14 mt-12 font-Quicksand font-semibold text-4xl text-gray-dark;
+}
+
+/*titulo H1 verde seccion login*/
+.H1-header2 {
+  @apply mt-6 pb-4 font-Quicksand font-semibold text-5xl text-green;
+}
+
+/*sub-titulo H2 gris oscuro secciones*/
+.H2-header {
+  @apply ml-14 mt-2 font-Quicksand font-medium text-lg text-gray-dark;
+}
+
+/*sub-titulo H2 blanco secciones*/
+.H2-header2 {
+  @apply mt-2 font-Quicksand font-normal text-lg text-white;
+}
+
+/*texto H4 blanco secciones, inputs*/
+.H4-paragraph {
+  @apply mt-2 font-Quicksand font-normal text-sm text-white;
+}
+/*texto H4 gris secciones, inputs*/
+.H4-gray {
+  @apply mt-2 font-Quicksand font-normal text-sm text-gray-dark;
+}
+
+/*texto H5 gris footer*/
+.H5-small {
+  @apply mt-4 font-Quicksand font-normal text-sm text-gray;
+}
+
+/*texto H3 gris secciones*/
+.H3-header1 {
+  @apply mt-2 font-Quicksand font-medium text-lg text-white;
+}
