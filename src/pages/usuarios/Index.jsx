@@ -60,7 +60,7 @@ const IndexUsuarios = () => {
         <p className='H2-header'>Aquí puedes ver y asignar estados a los usuarios.</p>
 
         <div>
-          
+
           <Table className={classes.table}>
             <TableHead >
               <TableRow className={classes.thead}>
@@ -85,8 +85,8 @@ const IndexUsuarios = () => {
                       <TableCell>{Enum_Rol[u.rol]}</TableCell>
                       <TableCell>{Enum_EstadoUsuario[u.estado]}</TableCell>
                       <TableCell>
-                        <Link to={`/usuarios/${u._id}/e`}>
-                          <i className='fas fa-pen text-gray hover:text-green-dark cursor-pointer' />
+                        <Link to={`/usuarios/${u._id}/editar`}>
+                          <FontAwesomeIcon icon={faPen} className='text-gray hover:text-orange cursor-pointer' />
                         </Link>
                       </TableCell>
                     </TableRow>
