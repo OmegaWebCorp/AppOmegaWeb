@@ -67,7 +67,7 @@ const EditarUsuario = () => {
       <p className='H2-header'>Aquí puedes editar y actualizar la información del usuario.</p>
       <div className='flew flex-col w-full h-full items-center justify-center p-10 H4-gray'>
         <Link to='/usuarios'>
-          <i className='fas fa-arrow-left text-gray cursor-pointer font-bold text-xl hover:text-gray-dark' />
+          <i className='fas fa-arrow-left text-gray cursor-pointer font-bold text-xl hover:text-green-dark' />
         </Link>
 
         <form

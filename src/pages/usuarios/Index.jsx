@@ -84,7 +84,7 @@ const IndexUsuarios = () => {
                       <TableCell>{Enum_EstadoUsuario[u.estado]}</TableCell>
                       <TableCell>
                         <Link to={`/usuarios/editarusuario/${u._id}`}>
-                          <i className='fas fa-pen text-gray hover:text-orange cursor-pointer' />
+                          <i className='fas fa-pen text-gray hover:text-green-dark cursor-pointer' />
                         </Link>
                       </TableCell>
                     </TableRow>
