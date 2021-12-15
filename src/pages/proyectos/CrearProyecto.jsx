@@ -4,7 +4,7 @@ import Input from 'components/Input';
 import { GET_USUARIOS } from 'graphql/usuarios/queries';
 import { Link } from 'react-router-dom';
 import DropDown from 'components/Dropdown';
-import ButtonLoading from 'components/ButtonLoading';
+import LoadingButton from 'components/LoadingButton';
 import useFormData from 'hooks/useFormData';
 import { Enum_TipoObjetivo } from 'utils/enums';
 import { nanoid } from 'nanoid';
@@ -74,7 +74,7 @@ const CrearProyecto = () => {
           <Input name='fechaFin' label='Fecha de Fin' required type='date' />
           <DropDown label='Líder' options={listaUsuarios} name='lider' required />
           <Objetivos />
-          <ButtonLoading text='Crear Proyecto' loading={false} disabled={false} />
+          <LoadingButton text='Crear Proyecto' loading={false} disabled={false} />
         </form>
       </div>
     );
