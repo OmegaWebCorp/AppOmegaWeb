@@ -1,50 +1,53 @@
 
 import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { useParams, Link } from 'react-router-dom';
 // ** imports @apollo
 import { useQuery, useMutation } from '@apollo/client';
 // ** import components
 import Input from 'components/Input';
 import LoadingButton from 'components/LoadingButton';
-import DropDown from 'components/Dropdown';
+// ** import contexts
+import { useUser } from 'context/userContext';
 // ** import hooks
 import useFormData from 'hooks/useFormData';
 // ** import gql mutations-queries
-import { EDITAR_USUARIO } from 'graphql/miperfil/mutations';
-import { GET_USUARIO } from 'graphql/miperfil/queries';
-// ** import ROLES-enums
-import { Enum_EstadoUsuario } from 'utils/enums';
+import { EDITAR_PERFIL } from 'graphql/usuarios/mutations';
+import { GET_USUARIO } from 'graphql/usuarios/queries';
 
 const IndexMiperfil = () => {
 
-  const { form, formData, updateFormData } = useFormData(null);
-  const { _id } = useParams();
+  const { form, formData, updateFormData } = useFormData();
+  const { userData, setUserData } = useUser();
 
   const {
     data: queryData,
     error: queryError,
     loading: queryLoading,
+    refetch,
   } = useQuery(GET_USUARIO, {
-    variables: { _id },
+    variables: {
+      _id: userData._id,
+    },
   });
 
-  const [editarUsuario, { data: mutationData, loading: mutationLoading, error: mutationError }] =
-    useMutation(EDITAR_USUARIO);
+  const [editarPerfil, { data: dataMutation, loading: loadingMutation, error: mutationError }] =
+    useMutation(EDITAR_PERFIL);
 
   const submitForm = (e) => {
     e.preventDefault();
-    delete formData.rol;
-    editarUsuario({
-      variables: { _id, ...formData },
+    //delete formData.rol;
+    editarPerfil({
+      variables: { _id: userData._id, },
     });
   };
 
   useEffect(() => {
-    if (mutationData) {
+    if (dataMutation) {
+      setUserData({ ...userData });
       toast.success('Tus datos se editarón correctamente');
+      refetch();
     }
-  }, [mutationData]);
+  }, [dataMutation]);
 
   useEffect(() => {
     if (mutationError) {
@@ -78,40 +81,32 @@ const IndexMiperfil = () => {
             type='text'
             name='nombre'
             //defaultValue={queryData.Usuario.nombre}
-            required={true}
+            required
           />
           <Input
             label='Apellido:'
             type='text'
             name='apellido'
             //defaultValue={queryData.Usuario.apellido}
-            required={true}
-          />
-          <Input
-            label='Correo:'
-            type='email'
-            name='correo'
-            //defaultValue={queryData.Usuario.correo}
-            required={true}
+            required
           />
           <Input
             label='Documento:'
             type='text'
             name='identificacion'
             //defaultValue={queryData.Usuario.identificacion}
-            required={true}
+            required
           />
-          <DropDown
-            label='Estado:'
-            name='estado'
-            //defaultValue={queryData.Usuario.estado}
-            required={true}
-            options={Enum_EstadoUsuario}
+          <Input
+            label='Correo:'
+            type='email'
+            name='correo'
+            //defaultValue={queryData.Usuario.correo}
+            required
           />
-          {/*<span>Rol del usuario: {queryData.Usuario.rol}</span>*/}
           <LoadingButton
             disabled={Object.keys(formData).length === 0}
-            loading={mutationLoading}
+            loading={loadingMutation}
             text='Confirmar'
           />
         </form>
