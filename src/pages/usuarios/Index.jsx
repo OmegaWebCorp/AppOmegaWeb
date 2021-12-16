@@ -86,7 +86,7 @@ const IndexUsuarios = () => {
                       <TableCell>{Enum_EstadoUsuario[u.estado]}</TableCell>
                       <TableCell>
                         <Link to={`/usuarios/${u._id}/editar`}>
-                          <FontAwesomeIcon icon={faPen} className='text-gray hover:text-orange cursor-pointer' />
+                          <FontAwesomeIcon icon={faPen} className='text-gray hover:text-green-dark cursor-pointer' />
                         </Link>
                       </TableCell>
                     </TableRow>
