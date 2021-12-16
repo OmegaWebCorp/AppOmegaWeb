@@ -12,8 +12,8 @@ import PrivateRoute from 'components/PrivateRoute';
 // ** import hooks
 import useFormData from 'hooks/useFormData';
 // ** import gql mutations-queries
-import { EDITAR_USUARIO } from 'graphql/miperfil/mutations';
-import { GET_USUARIO } from 'graphql/miperfil/queries';
+import { EDITAR_USUARIO } from 'graphql/usuarios/mutations';
+import { GET_USUARIO } from 'graphql/usuarios/queries';
 // ** import ROLES-enums
 import { Enum_EstadoUsuario } from 'utils/enums';
 
