@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+
 // ** import @apollo
 import { useMutation, useQuery } from '@apollo/client';
 // ** import components
@@ -35,23 +36,23 @@ const Index = () => {
     return (
       // ** Encabezado sección **
       <div>
-      <div className='H1-header'>Proyectos</div>
-      <p className='H2-header'>Aquí puedes ver todos tus proyectos.</p>
-      <div className='p-14 flex flex-col'>
-        <div className='flex w-full items-center justify-center'>
-        </div>
-        {/** link para crear un proyecto desde ADMINISTRADOR **/}
-        <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
-          <div className='my-2 self-end'>
-            <button className='bg-gray-lightest text-gray-dark p-2 rounded-lg shadow-lg hover:bg-green'>
-              <Link to='/proyectos/CrearProyecto'>Crear nuevo proyecto</Link>
-            </button>
+        <div className='H1-header'>Proyectos</div>
+        <p className='H2-header'>Aquí puedes ver todos tus proyectos.</p>
+        <div className='p-14 flex flex-col'>
+          <div className='flex w-full items-center justify-center'>
           </div>
-        </PrivateComponent>
-        {queryData.Proyectos.map((proyecto) => {
-          return <AccordionProyecto proyecto={proyecto} />;
-        })}
-      </div>
+          {/** link para crear un proyecto desde ADMINISTRADOR **/}
+          <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
+            <div className='my-2 self-end'>
+              <button className='bg-gray-lightest text-gray-dark p-2 rounded-lg shadow-lg hover:bg-green'>
+                <Link to='/proyectos/CrearProyecto'>Crear nuevo proyecto</Link>
+              </button>
+            </div>
+          </PrivateComponent>
+          {queryData.Proyectos.map((proyecto) => {
+            return <AccordionProyecto proyecto={proyecto} />;
+          })}
+        </div>
       </div>
     );
   }
@@ -59,7 +60,9 @@ const Index = () => {
   return <></>;
 };
 
+
 const AccordionProyecto = ({ proyecto }) => {
+
   const [showDialog, setShowDialog] = useState(false);
   return (
     <>
@@ -69,37 +72,58 @@ const AccordionProyecto = ({ proyecto }) => {
           <div className='flex w-full justify-between'>
             <div className='H3-header1'>
               {proyecto.nombre} - {proyecto.estado}
+              <PrivateComponent roleList={['ADMINISTRADOR']}>
+                <i
+                  className='mx-9 fas fa-pen  hover:text-green-dark'
+                  onClick={() => {
+                    setShowDialog(true);
+                  }}
+                />
+              </PrivateComponent>
             </div>
           </div>
-        
-        {/*** Estilos botón editar proyecto ***/}
+
+          {/*** Estilos botón editar proyecto ***/}
         </AccordionSummaryStyled>
         <AccordionDetailsStyled>
-          <PrivateComponent roleList={['ADMINISTRADOR']}>
-            <i
-              className='mx-4 fas fa-pen text-orange hover:text-orange'
-              onClick={() => {
-                setShowDialog(true);
-              }}
-            />
-          </PrivateComponent>
+
           <PrivateComponent roleList={['ESTUDIANTE']}>
             <InscripcionProyecto
               idProyecto={proyecto._id}
               estado={proyecto.estado}
               inscripciones={proyecto.inscripciones}
             />
-          {/*** Estilos internos accordion ***/}
+            {/*** Estilos internos accordion ***/}
           </PrivateComponent>
-          <div className='mt-4 font-Quicksand font-medium text-gray-dark'>LIDERADO POR: {proyecto.lider.correo}</div>
+          <div className='H2-header items-left'><b>Liderado por </b>
+          <div className='text-gray-dark'> {proyecto.lider.nombre} {proyecto.lider.apellido} </div>
+          </div>
+          <div className='H2-header items-left'><b>Presupuesto:</b>
+          <div className='text-gray-dark'>$ {proyecto.presupuesto } </div>
+          </div>
+          <div className='H2-header items-left'><b>Fecha Inicio</b>
+          <div className='text-gray-dark'> {proyecto.fechaInicio.substring( 0, 10) } </div>
+          </div>
+          <div className='H2-header items-left'><b>Fecha Fin</b>
+          <div className='text-gray-dark'> {proyecto.fechaFin.substring( 0, 10) } </div>
+          </div>
+          <div className='H2-header items-left'><b>Fase</b>
+          <div className='text-gray-dark'> {proyecto.fase } </div>
+          </div>
           <div className='flex H4-gray items-left'>
             {proyecto.objetivos.map((objetivo) => {
               return <Objetivo tipo={objetivo.tipo} descripcion={objetivo.descripcion} />;
             })}
+          
           </div>
+          <Link to={`/avances/${proyecto._id}`}>
+          <LoadingButton
+            text='Ver Avances'
+          />
+          </Link>
         </AccordionDetailsStyled>
       </AccordionStyled>
-        
+
       <Dialog
         open={showDialog}
         onClose={() => {
@@ -145,7 +169,7 @@ const FormEditProyecto = ({ _id }) => {
     </div>
   );
 };
- {/*** Estilos internos accordion OBJETIVOS ***/}
+{/*** Estilos internos accordion OBJETIVOS ***/ }
 const Objetivo = ({ tipo, descripcion }) => {
   return (
     <div className='mx-5 my-4 p-8 rounded-lg border border-gray-light flex flex-col items-left justify-center shadow-xl'>

@@ -81,7 +81,7 @@ function App() {
                 <Route path='/index' element={<Index />} />
                 <Route path='/proyectos/crearproyecto' element={<CrearProyecto />} />
                 <Route path='/usuarios' element={<IndexUsuarios />} />
-                <Route path='/usuarios/editarusuarios' element={<EditarUsuario />} />
+                <Route path='/usuarios/:_id/editar' element={<EditarUsuario />} />
                 <Route path='/inscripciones/' element={<IndexInscripciones />} />            
               </Route>
               <Route path='/auth' element={<AuthLayout />}>
