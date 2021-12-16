@@ -54,7 +54,7 @@ const IndexUsuarios = () => {
   if (loading) return <div>Cargando....</div>;
 
   return (
-    <PrivateRoute roleList={['ADMINISTRADOR']}>
+    <PrivateRoute roleList={['ADMINISTRADOR', 'LIDER']}>
       <div>
         <div className='H1-header'>Usuarios</div>
         <p className='H2-header'>Aquí puedes ver y asignar estados a los usuarios.</p>
