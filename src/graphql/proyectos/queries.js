@@ -6,6 +6,10 @@ const PROYECTOS = gql`
       _id
       nombre
       estado
+      presupuesto
+      fechaFin
+      fase
+      fechaInicio
       objetivos {
         descripcion
         tipo
@@ -13,6 +17,8 @@ const PROYECTOS = gql`
       lider {
         _id
         correo
+        nombre
+        apellido
       }
       inscripciones {
         estado
