@@ -22,6 +22,10 @@ import { Enum_EstadoProyecto } from 'utils/enums';
 // ** imports estilos
 import { Dialog } from '@mui/material';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { Enum_FaseProyecto } from 'utils/enums';
+
 
 const Index = () => {
   const { data: queryData, loading, error } = useQuery(PROYECTOS);
@@ -64,6 +68,9 @@ const Index = () => {
 const AccordionProyecto = ({ proyecto }) => {
 
   const [showDialog, setShowDialog] = useState(false);
+  const onCloseEditForm = () => {
+    setShowDialog(false)
+  }
   return (
     <>
       {/*** Estilos accordion ***/}
@@ -72,9 +79,10 @@ const AccordionProyecto = ({ proyecto }) => {
           <div className='flex w-full justify-between'>
             <div className='H3-header1'>
               {proyecto.nombre} - {proyecto.estado}
-              <PrivateComponent roleList={['ADMINISTRADOR']}>
-                <i
-                  className='mx-9 fas fa-pen  hover:text-green-dark'
+              <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
+                <FontAwesomeIcon
+                  icon={faPen}
+                  className='text-gray mx-9 hover:text-green-dark cursor-pointer'
                   onClick={() => {
                     setShowDialog(true);
                   }}
@@ -96,30 +104,30 @@ const AccordionProyecto = ({ proyecto }) => {
             {/*** Estilos internos accordion ***/}
           </PrivateComponent>
           <div className='H2-header items-left'><b>Liderado por </b>
-          <div className='text-gray-dark'> {proyecto.lider.nombre} {proyecto.lider.apellido} </div>
+            <div className='text-gray-dark'> {proyecto.lider.nombre} {proyecto.lider.apellido} </div>
           </div>
           <div className='H2-header items-left'><b>Presupuesto:</b>
-          <div className='text-gray-dark'>$ {proyecto.presupuesto } </div>
+            <div className='text-gray-dark'>$ {proyecto.presupuesto} </div>
           </div>
           <div className='H2-header items-left'><b>Fecha Inicio</b>
-          <div className='text-gray-dark'> {proyecto.fechaInicio.substring( 0, 10) } </div>
+            <div className='text-gray-dark'> {proyecto.fechaInicio.substring(0, 10)} </div>
           </div>
           <div className='H2-header items-left'><b>Fecha Fin</b>
-          <div className='text-gray-dark'> {proyecto.fechaFin.substring( 0, 10) } </div>
+            <div className='text-gray-dark'> {proyecto.fechaFin.substring(0, 10)} </div>
           </div>
           <div className='H2-header items-left'><b>Fase</b>
-          <div className='text-gray-dark'> {proyecto.fase } </div>
+            <div className='text-gray-dark'> {Enum_FaseProyecto[proyecto.fase]} </div>
           </div>
           <div className='flex H4-gray items-left'>
             {proyecto.objetivos.map((objetivo) => {
               return <Objetivo tipo={objetivo.tipo} descripcion={objetivo.descripcion} />;
             })}
-          
+
           </div>
           <Link to={`/avances/${proyecto._id}`}>
-          <LoadingButton
-            text='Ver Avances'
-          />
+            <LoadingButton
+              text='Ver Avances'
+            />
           </Link>
         </AccordionDetailsStyled>
       </AccordionStyled>
@@ -130,13 +138,13 @@ const AccordionProyecto = ({ proyecto }) => {
           setShowDialog(false);
         }}
       >
-        <FormEditProyecto _id={proyecto._id} />
+        <FormEditProyecto _id={proyecto._id} estado={proyecto.estado} fase={proyecto.fase} onCloseEditForm={onCloseEditForm} />
       </Dialog>
     </>
   );
 };
 
-const FormEditProyecto = ({ _id }) => {
+const FormEditProyecto = ({ _id, estado, fase, onCloseEditForm }) => {
   const { form, formData, updateFormData } = useFormData();
   const [editarProyecto, { data: dataMutation, loading, error }] = useMutation(EDITAR_PROYECTO);
 
@@ -148,6 +156,7 @@ const FormEditProyecto = ({ _id }) => {
         campos: formData,
       },
     });
+    onCloseEditForm()
   };
 
   useEffect(() => {
@@ -163,7 +172,8 @@ const FormEditProyecto = ({ _id }) => {
         onSubmit={submitForm}
         className='flex flex-col items-center'
       >
-        <DropDown label='Estado del Proyecto' name='estado' options={Enum_EstadoProyecto} />
+        <DropDown label='Estado' name='estado' options={Enum_EstadoProyecto} defaultValue={estado} />
+        <DropDown label='Fase' name='fase' options={Enum_FaseProyecto} defaultValue={fase} />
         <LoadingButton disabled={false} loading={loading} text='Confirmar' />
       </form>
     </div>
