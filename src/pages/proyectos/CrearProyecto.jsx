@@ -10,46 +10,48 @@ import { Enum_TipoObjetivo } from 'utils/enums';
 import { nanoid } from 'nanoid';
 import { ObjContext, useObj } from 'context/objContext';
 import { CREAR_PROYECTO } from 'graphql/proyectos/mutations';
+import PrivateRoute from 'components/PrivateRoute';
 const CrearProyecto = () => {
-    const { form, formData, updateFormData } = useFormData();
-    const [listaUsuarios, setListaUsuarios] = useState({});
-  
-    // falta captura del error del query
-    const { data, loading } = useQuery(GET_USUARIOS, {
-      variables: {
-        filtro: { rol: 'LIDER', estado: 'AUTORIZADO' },
-      },
-    });
-  
-    // falta mensaje de success
-    // falta captura del error de la mutacion y revisar si se debe agregar el loading
-    const [crearProyecto] = useMutation(CREAR_PROYECTO);
-  
-    useEffect(() => {
-      if (data) {
-        const lu = {};
-        data.Usuarios.forEach((elemento) => {
-          lu[elemento._id] = elemento.correo;
-        });
-  
-        setListaUsuarios(lu);
-      }
-    }, [data]);
-  
-    const submitForm = (e) => {
-      e.preventDefault();
-  
-      formData.objetivos = Object.values(formData.objetivos);
-      formData.presupuesto = parseFloat(formData.presupuesto);
-  
-      crearProyecto({
-        variables: formData,
+  const { form, formData, updateFormData } = useFormData();
+  const [listaUsuarios, setListaUsuarios] = useState({});
+
+  // falta captura del error del query
+  const { data, loading } = useQuery(GET_USUARIOS, {
+    variables: {
+      filtro: { rol: 'LIDER', estado: 'AUTORIZADO' },
+    },
+  });
+
+  // falta mensaje de success
+  // falta captura del error de la mutacion y revisar si se debe agregar el loading
+  const [crearProyecto] = useMutation(CREAR_PROYECTO);
+
+  useEffect(() => {
+    if (data) {
+      const lu = {};
+      data.Usuarios.forEach((elemento) => {
+        lu[elemento._id] = elemento.correo;
       });
-    };
-  
-    if (loading) return <div>...Loading</div>;
-  
-    return (
+
+      setListaUsuarios(lu);
+    }
+  }, [data]);
+
+  const submitForm = (e) => {
+    e.preventDefault();
+
+    formData.objetivos = Object.values(formData.objetivos);
+    formData.presupuesto = parseFloat(formData.presupuesto);
+
+    crearProyecto({
+      variables: formData,
+    });
+  };
+
+  if (loading) return <div>...Loading</div>;
+
+  return (
+    <PrivateRoute roleList={['ADMINISTRADOR', 'LIDER']}>
       <div>
         <div className='H1-header'>Crear proyecto</div>
         <p className='H2-header'>Ingresa la información para crear un nuevo proyecto.</p>
@@ -75,75 +77,76 @@ const CrearProyecto = () => {
           </form>
         </div>
       </div>
-    );
+    </PrivateRoute>
+  );
+};
+
+const Objetivos = () => {
+  const [listaObjetivos, setListaObjetivos] = useState([]);
+  const [maxObjetivos, setMaxObjetivos] = useState(false);
+
+  const eliminarObjetivo = (id) => {
+    setListaObjetivos(listaObjetivos.filter((el) => el.props.id !== id));
   };
-  
-  const Objetivos = () => {
-    const [listaObjetivos, setListaObjetivos] = useState([]);
-    const [maxObjetivos, setMaxObjetivos] = useState(false);
-  
-    const eliminarObjetivo = (id) => {
-      setListaObjetivos(listaObjetivos.filter((el) => el.props.id !== id));
-    };
-  
-    const componenteObjetivoAgregado = () => {
-      const id = nanoid();
-      return <FormObjetivo key={id} id={id} />;
-    };
-  
-    useEffect(() => {
-      if (listaObjetivos.length > 4) {
-        setMaxObjetivos(true);
-      } else {
-        setMaxObjetivos(false);
-      }
-    }, [listaObjetivos]);
-  
-    return (
-      <ObjContext.Provider value={{ eliminarObjetivo }}>
-        <div>
-          <span>Agregar objetivo al proyecto</span>
-          {!maxObjetivos && (
-            <button
-              type='button'
-              onClick={() =>
-                setListaObjetivos([
-                  ...listaObjetivos,
-                  componenteObjetivoAgregado(),
-                ])
-              }
-            >
-              <i className='fas fa-plus rounded-full bg-green hover:bg-green text-white p-2 mx-2 cursor-pointer mt-4' />
-            </button>
-          )}
-          {listaObjetivos.map((objetivo) => objetivo)}
-        </div>
-      </ObjContext.Provider>
-    );
+
+  const componenteObjetivoAgregado = () => {
+    const id = nanoid();
+    return <FormObjetivo key={id} id={id} />;
   };
-  
-  const FormObjetivo = ({ id }) => {
-    const { eliminarObjetivo } = useObj();
-    return (
-      <div className='flex items-center flex space-x-4 mt-4'>
-        <Input
-          name={`nested||objetivos||${id}||descripcion`}
-          label='Descripción'
-          type='text'
-          required
-        />
-        <DropDown
-          name={`nested||objetivos||${id}||tipo`}
-          options={Enum_TipoObjetivo}
-          label='Tipo de Objetivo'
-          required
-        />
-        <button type='button' onClick={() => eliminarObjetivo(id)}>
-          <i className='fas fa-minus rounded-full bg-red hover:bg-gray-dark text-white p-2 mx-2 cursor-pointer mt-6' />
-        </button>
+
+  useEffect(() => {
+    if (listaObjetivos.length > 4) {
+      setMaxObjetivos(true);
+    } else {
+      setMaxObjetivos(false);
+    }
+  }, [listaObjetivos]);
+
+  return (
+    <ObjContext.Provider value={{ eliminarObjetivo }}>
+      <div>
+        <span>Agregar objetivo al proyecto</span>
+        {!maxObjetivos && (
+          <button
+            type='button'
+            onClick={() =>
+              setListaObjetivos([
+                ...listaObjetivos,
+                componenteObjetivoAgregado(),
+              ])
+            }
+          >
+            <i className='fas fa-plus rounded-full bg-green hover:bg-green text-white p-2 mx-2 cursor-pointer mt-4' />
+          </button>
+        )}
+        {listaObjetivos.map((objetivo) => objetivo)}
       </div>
-    );
-  };
+    </ObjContext.Provider>
+  );
+};
+
+const FormObjetivo = ({ id }) => {
+  const { eliminarObjetivo } = useObj();
+  return (
+    <div className='flex items-center flex space-x-4 mt-4'>
+      <Input
+        name={`nested||objetivos||${id}||descripcion`}
+        label='Descripción'
+        type='text'
+        required
+      />
+      <DropDown
+        name={`nested||objetivos||${id}||tipo`}
+        options={Enum_TipoObjetivo}
+        label='Tipo de Objetivo'
+        required
+      />
+      <button type='button' onClick={() => eliminarObjetivo(id)}>
+        <i className='fas fa-minus rounded-full bg-red hover:bg-gray-dark text-white p-2 mx-2 cursor-pointer mt-6' />
+      </button>
+    </div>
+  );
+};
 
 
 export default CrearProyecto;
