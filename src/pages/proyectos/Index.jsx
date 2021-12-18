@@ -126,13 +126,19 @@ const AccordionProyecto = ({ proyecto }) => {
             <div className='font-Quicksand ml-2 flex flex-col p-2'>
               <b>Fase:</b> {Enum_FaseProyecto[proyecto.fase]}
             </div>
+            {
+              proyecto.inscripciones && (
+                <div className='H2-header items-left'><b>Número de inscritos</b>
+                  <div className='text-gray-dark'> {proyecto.inscripciones.filter(inscripcion => inscripcion.estado === 'ACEPTADO').length} </div>
+                </div>
+              )
+            }
             <Link className='flex flex-col' to={`/avances/${proyecto._id}`}>
-              <LoadingButton text='Ver Avances'/>
+              <LoadingButton text='Ver Avances' />
             </Link>
           </div>
-          <div className='H2-header items-left'><b>Número de inscritos</b>
-            <div className='text-gray-dark'> {proyecto.inscripciones.filter(inscripcion => inscripcion.estado === 'ACEPTADO').length} </div>
-          </div>
+
+
           <div className='flex H4-gray items-left'>
             {proyecto.objetivos.map((objetivo, index) => {
               return <Objetivo
@@ -144,11 +150,6 @@ const AccordionProyecto = ({ proyecto }) => {
               />;
             })}
           </div>
-          <Link className='ml-5' to={`/avances/${proyecto._id}`}>
-            <LoadingButton
-              text='Ver Avances'
-            />
-          </Link>
         </AccordionDetailsStyled>
       </AccordionStyled>
 
