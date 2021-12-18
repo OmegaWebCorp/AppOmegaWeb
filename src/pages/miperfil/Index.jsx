@@ -37,7 +37,7 @@ const IndexMiperfil = () => {
     e.preventDefault();
     //delete formData.rol;
     editarPerfil({
-      variables: { _id: userData._id, },
+      variables: { _id: userData._id, campos: formData },
     });
   };
 
@@ -61,14 +61,14 @@ const IndexMiperfil = () => {
 
   if (queryLoading) return <div>Cargando....</div>;
 
-    return (
+  return (
 
-      // ** Encabezado sección **
+    // ** Encabezado sección **
 
-        <div>
-          <div className='H1-header'>Mi perfil</div>
-          <p className='H2-header'>Aquí puedes editar y actualizar tu información.</p>  
-        <div className='flew flex-col w-full h-full items-center justify-center p-10 H4-gray'>
+    <div>
+      <div className='H1-header'>Mi perfil</div>
+      <p className='H2-header'>Aquí puedes editar y actualizar tu información.</p>
+      <div className='flew flex-col w-full h-full items-center justify-center p-10 H4-gray'>
 
         <form
           onSubmit={submitForm}
@@ -80,30 +80,33 @@ const IndexMiperfil = () => {
             label='Nombre:'
             type='text'
             name='nombre'
-            //defaultValue={queryData.Usuario.nombre}
+            defaultValue={queryData.Usuario.nombre}
             required
           />
           <Input
             label='Apellido:'
             type='text'
             name='apellido'
-            //defaultValue={queryData.Usuario.apellido}
+            defaultValue={queryData.Usuario.apellido}
             required
           />
           <Input
             label='Documento:'
             type='text'
             name='identificacion'
-            //defaultValue={queryData.Usuario.identificacion}
+            defaultValue={queryData.Usuario.identificacion}
             required
           />
           <Input
             label='Correo:'
             type='email'
             name='correo'
-            //defaultValue={queryData.Usuario.correo}
+            defaultValue={queryData.Usuario.correo}
             required
           />
+          <p className='H4-gray mb-2'>
+            Rol actual: {queryData.Usuario.rol}
+          </p>
           <LoadingButton
             disabled={Object.keys(formData).length === 0}
             loading={loadingMutation}
@@ -111,8 +114,8 @@ const IndexMiperfil = () => {
           />
         </form>
       </div>
-      </div>
-    );
+    </div>
+  );
 };
 
 export default IndexMiperfil;

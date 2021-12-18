@@ -64,7 +64,7 @@ const EditarUsuario = () => {
   return (
 
     // ** Encabezado sección **
-    <PrivateRoute roleList={['ADMINISTRADOR']}>
+    <PrivateRoute roleList={['ADMINISTRADOR','LIDER']}>
 
       <div>
         <div className='H1-header'>Editar usuario</div>

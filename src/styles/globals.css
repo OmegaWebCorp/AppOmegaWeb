@@ -43,12 +43,21 @@
   @apply mt-2 font-Quicksand font-normal text-sm text-gray-dark;
 }
 
-/*texto H5 gris footer*/
+/*texto H4 gris secciones*/
+.Header-dialog {
+  @apply mt-2 font-Quicksand font-bold text-2xl text-gray-dark;
+}
+
+/*texto H5 footer fondo gris*/
 .H5-small {
   @apply mt-4 font-Quicksand font-normal text-sm text-gray;
 }
 
-/*texto H3 gris secciones*/
+/*texto H3 secciones fondo gris*/
 .H3-header1 {
   @apply mt-2 font-Quicksand font-medium text-lg text-white;
+}
+
+.Button-2 {
+  @apply bg-green rounded-3xl shadow-md text-gray-dark font-bold font-Quicksand text-lg p-2.5 rounded-xl hover:bg-gray-light shadow-md my-4;
 }
