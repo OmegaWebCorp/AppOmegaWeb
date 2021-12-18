@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useMutation, useQuery } from '@apollo/client';
 import Input from 'components/Input';
 import { GET_USUARIOS } from 'graphql/usuarios/queries';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import DropDown from 'components/Dropdown';
 import LoadingButton from 'components/LoadingButton';
 import useFormData from 'hooks/useFormData';
@@ -11,9 +12,12 @@ import { nanoid } from 'nanoid';
 import { ObjContext, useObj } from 'context/objContext';
 import { CREAR_PROYECTO } from 'graphql/proyectos/mutations';
 import PrivateRoute from 'components/PrivateRoute';
+import { PROYECTOS } from 'graphql/proyectos/queries';
+
 
 
 const CrearProyecto = () => {
+  const navigate = useNavigate();
   const { form, formData, updateFormData } = useFormData();
   const [listaUsuarios, setListaUsuarios] = useState({});
 
@@ -23,7 +27,16 @@ const CrearProyecto = () => {
     },
   });
 
-  const [crearProyecto] = useMutation(CREAR_PROYECTO);
+  const [crearProyecto, { loading: crearProyectoLoading, error: crearProyectoError }] = useMutation(CREAR_PROYECTO, {
+    onCompleted: () => {
+      toast.success('Proyecto creado correctamente')
+      navigate('/index')
+    },
+    onError: () => {
+      toast.error('Algo salió mal')
+    },
+    refetchQueries:[PROYECTOS]
+  });
 
   useEffect(() => {
     if (data) {
@@ -72,7 +85,7 @@ const CrearProyecto = () => {
             <Input name='fechaFin' label='Fecha de Fin' required type='date' />
             <DropDown label='Líder' options={listaUsuarios} name='lider' required />
             <Objetivos />
-            <LoadingButton text='Crear Proyecto' loading={false} disabled={false} />
+            <LoadingButton text='Crear Proyecto' loading={crearProyectoLoading} />
           </form>
         </div>
       </div>
