@@ -19,6 +19,7 @@ import CrearProyecto from 'pages/proyectos/CrearProyecto';
 import IndexUsuarios from 'pages/usuarios/Index';
 import EditarUsuario from 'pages/usuarios/EditarUsuario';
 import IndexInscripciones from 'pages/inscripciones/Index';
+import IndexAvance from 'pages/avances/Index';
 // ** imports estilos
 import 'styles/globals.css';
 
@@ -82,7 +83,8 @@ function App() {
                 <Route path='/proyectos/crearproyecto' element={<CrearProyecto />} />
                 <Route path='/usuarios' element={<IndexUsuarios />} />
                 <Route path='/usuarios/:_id/editar' element={<EditarUsuario />} />
-                <Route path='/inscripciones/' element={<IndexInscripciones />} />            
+                <Route path='/inscripciones/' element={<IndexInscripciones />} />
+                <Route path='/avances/:projectid' element={<IndexAvance />} />            
               </Route>
               <Route path='/auth' element={<AuthLayout />}>
                 <Route path='signup' element={<SignUp />} />
