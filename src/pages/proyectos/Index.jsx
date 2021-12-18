@@ -86,7 +86,7 @@ const AccordionProyecto = ({ proyecto }) => {
                     setShowDialog(true);
                   }}>
                   {proyecto.estado}
-                  <FontAwesomeIcon className='ml-2'icon={faPen} />
+                  <FontAwesomeIcon className='ml-2' icon={faPen} />
                 </button>
               </PrivateComponent>
             </div>
@@ -102,34 +102,35 @@ const AccordionProyecto = ({ proyecto }) => {
               estado={proyecto.estado}
               inscripciones={proyecto.inscripciones}
             />
-            {/*** Estilos internos accordion ***/}
-          </PrivateComponent>
-          <div className='H2-header items-left'><b>Liderado por </b>
-            <div className='text-gray-dark'> {proyecto.lider.nombre} {proyecto.lider.apellido} </div>
-          </div>
-          <div className='H2-header items-left'><b>Presupuesto:</b>
-            <div className='text-gray-dark'>$ {proyecto.presupuesto} </div>
-          </div>
-          <div className='H2-header items-left'><b>Fecha Inicio</b>
-            <div className='text-gray-dark'> {proyecto.fechaInicio.substring(0, 10)} </div>
-          </div>
-          <div className='H2-header items-left'><b>Fecha Fin</b>
-            <div className='text-gray-dark'> {proyecto.fechaFin.substring(0, 10)} </div>
-          </div>
-          <div className='H2-header items-left'><b>Fase</b>
-            <div className='text-gray-dark'> {Enum_FaseProyecto[proyecto.fase]} </div>
+          </PrivateComponent >
+
+          {/*** Estilos internos accordion ***/}
+          <div className='font-Quicksand ml-5 mr-5 mt-2 flex flex-cols-4 p-2 justify-between rounded-lg border border-gray-light'>
+            <div className='font-Quicksand flex flex-col p-2'>
+              <b>Liderado por: </b>
+              {proyecto.lider.nombre} {proyecto.lider.apellido}
+            </div>
+            <div className='font-Quicksand ml-2 flex flex-col p-2'>
+              <b>Presupuesto:</b> ${proyecto.presupuesto}
+            </div>
+            <div className='font-Quicksand ml-2 flex flex-col p-2'>
+              <b>Fecha Inicio:</b> {proyecto.fechaInicio.substring(0, 10)}
+            </div>
+            <div className='font-Quicksand ml-2 flex flex-col p-2'>
+              <b>Fecha Fin:</b> {proyecto.fechaFin.substring(0, 10)}
+            </div>
+            <div className='font-Quicksand ml-2 flex flex-col p-2'>
+              <b>Fase:</b> {Enum_FaseProyecto[proyecto.fase]}
+            </div>
+            <Link className='flex flex-col' to={`/avances/${proyecto._id}`}>
+              <LoadingButton text='Ver Avances'/>
+            </Link>
           </div>
           <div className='flex H4-gray items-left'>
             {proyecto.objetivos.map((objetivo) => {
               return <Objetivo tipo={objetivo.tipo} descripcion={objetivo.descripcion} />;
             })}
-
-          </div>
-          <Link to={`/avances/${proyecto._id}`}>
-            <LoadingButton
-              text='Ver Avances'
-            />
-          </Link>
+          </div >
         </AccordionDetailsStyled>
       </AccordionStyled>
 
