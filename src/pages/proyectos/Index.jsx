@@ -75,18 +75,19 @@ const AccordionProyecto = ({ proyecto }) => {
     <>
       {/*** Estilos accordion ***/}
       <AccordionStyled>
-        <AccordionSummaryStyled expandIcon={<i className='fas fa-chevron-down text-green' />}>
+        <AccordionSummaryStyled expandIcon={<i className='fas fa-chevron-down text-green hover:text-white' />}>
           <div className='flex w-full justify-between'>
             <div className='H3-header1'>
-              {proyecto.nombre} - {proyecto.estado}
+              {proyecto.nombre}
               <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
-                <FontAwesomeIcon
-                  icon={faPen}
-                  className='text-gray mx-9 hover:text-green-dark cursor-pointer'
+                <button
+                  className='text-white mx-10 hover:text-green ml-6 cursor-pointer px-2'
                   onClick={() => {
                     setShowDialog(true);
-                  }}
-                />
+                  }}>
+                  {proyecto.estado}
+                  <FontAwesomeIcon className='ml-2'icon={faPen} />
+                </button>
               </PrivateComponent>
             </div>
           </div>
@@ -165,12 +166,12 @@ const FormEditProyecto = ({ _id, estado, fase, onCloseEditForm }) => {
 
   return (
     <div className='p-4'>
-      <h1 className='font-bold'>Modificar Estado del Proyecto</h1>
+      <h1 className='Header-dialog'>Modificar Estado del Proyecto</h1>
       <form
         ref={form}
         onChange={updateFormData}
         onSubmit={submitForm}
-        className='flex flex-col items-center'
+        className='flex flex-col ml-4 h-90 w-80 H4-gray'
       >
         <DropDown label='Estado' name='estado' options={Enum_EstadoProyecto} defaultValue={estado} />
         <DropDown label='Fase' name='fase' options={Enum_FaseProyecto} defaultValue={fase} />
