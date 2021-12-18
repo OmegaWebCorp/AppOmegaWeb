@@ -62,8 +62,8 @@ const IndexInscripciones = () => {
                 <Table className={classes.table}>
                     <TableHead>
                         <TableRow className={classes.thead}>
-                            <TableCell>Nombre del proyecto</TableCell>
-                            <TableCell>Nombre del estudiante</TableCell>
+                            <TableCell>Estudiante</TableCell>
+                            <TableCell>Proyecto</TableCell>
                             <TableCell>Estado</TableCell>
                             <TableCell>Acciones</TableCell>
                         </TableRow>
@@ -73,8 +73,8 @@ const IndexInscripciones = () => {
                             queryData.Inscripciones.map((Inscripcion) => {
                                 return (
                                     <TableRow className={classes.row} key={Inscripcion._id}>
-                                        <TableCell>{Inscripcion.proyecto.nombre}</TableCell>
                                         <TableCell>{Inscripcion.estudiante.nombre} {Inscripcion.estudiante.apellido}</TableCell>
+                                        <TableCell>{Inscripcion.proyecto.nombre}</TableCell>
                                         <TableCell>{Inscripcion.estado}</TableCell>
                                         <TableCell>
                                             <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']} >
