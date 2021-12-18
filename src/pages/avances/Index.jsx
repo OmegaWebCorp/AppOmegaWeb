@@ -58,7 +58,7 @@ const IndexAvance = () => {
                     <p className='H2-header'>{proyectoData.Proyecto._id}</p>
                 </>
             }
-            <div className='flew flex-col w-full h-full items-center justify-center p-10 ml-5'>
+            <div className='flew flex-col w-full h-full items-center justify-center p-10 ml-4'>
 
                 {data.Avances.length === 0 ? (
                     <div>No hay avances para este proyecto</div>
