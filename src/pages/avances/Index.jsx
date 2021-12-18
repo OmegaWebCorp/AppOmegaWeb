@@ -47,7 +47,7 @@ const IndexAvance = () => {
         <div>
             <div className='H1-header'>Avances del proyecto</div>
             {
-                proyectoData.Proyecto &&
+                proyectoData &&
                 <>
                     <div className='self-start flew flex-col w-full h-full items-center justify-center p-10 ml-5'>
                         <Link className='font-Quicksand font-medium text-lg text-gray-dark hover:underline' to='/index'>
