@@ -48,9 +48,9 @@ const Index = () => {
           {/** link para crear un proyecto desde ADMINISTRADOR **/}
           <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
             <div className='my-2 self-end'>
-              <button className='bg-gray-lightest text-gray-dark p-2 rounded-lg shadow-lg hover:bg-green'>
+              {/*<button className='bg-gray-lightest text-gray-dark p-2 rounded-lg shadow-lg hover:bg-green'>
                 <Link to='/proyectos/CrearProyecto'>Crear nuevo proyecto</Link>
-              </button>
+                </button>*/}
             </div>
           </PrivateComponent>
           {queryData.Proyectos.map((proyecto) => {
