@@ -43,7 +43,7 @@
   @apply mt-2 font-Quicksand font-normal text-sm text-gray-dark;
 }
 
-/*texto H4 gris secciones, inputs*/
+/*texto H4 gris secciones*/
 .Header-dialog {
   @apply mt-2 font-Quicksand font-bold text-2xl text-gray-dark;
 }

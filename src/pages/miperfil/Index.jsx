@@ -104,6 +104,9 @@ const IndexMiperfil = () => {
             defaultValue={queryData.Usuario.correo}
             required
           />
+          <p className='H4-gray mb-2'>
+            Rol actual: {queryData.Usuario.rol}
+          </p>
           <LoadingButton
             disabled={Object.keys(formData).length === 0}
             loading={loadingMutation}

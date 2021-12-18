@@ -10,20 +10,18 @@ import { Enum_TipoObjetivo } from 'utils/enums';
 import { nanoid } from 'nanoid';
 import { ObjContext, useObj } from 'context/objContext';
 import { CREAR_PROYECTO } from 'graphql/proyectos/mutations';
-import PrivateRoute from 'components/PrivateRoute';
+
+
 const CrearProyecto = () => {
   const { form, formData, updateFormData } = useFormData();
   const [listaUsuarios, setListaUsuarios] = useState({});
 
-  // falta captura del error del query
   const { data, loading } = useQuery(GET_USUARIOS, {
     variables: {
       filtro: { rol: 'LIDER', estado: 'AUTORIZADO' },
     },
   });
 
-  // falta mensaje de success
-  // falta captura del error de la mutacion y revisar si se debe agregar el loading
   const [crearProyecto] = useMutation(CREAR_PROYECTO);
 
   useEffect(() => {
@@ -51,33 +49,31 @@ const CrearProyecto = () => {
   if (loading) return <div>...Loading</div>;
 
   return (
-    <PrivateRoute roleList={['ADMINISTRADOR', 'LIDER']}>
-      <div>
-        <div className='H1-header'>Crear proyecto</div>
-        <p className='H2-header'>Ingresa la información para crear un nuevo proyecto.</p>
-        <div className='flex flex-col items-left ml-14 mt-8 h-90 w-80'>
-          <form className='H4-gray' ref={form} onChange={updateFormData} onSubmit={submitForm}>
-            <Input name='nombre' label='Nombre del Proyecto' required type='text' />
-            <Input
-              name='presupuesto'
-              label='Presupuesto del Proyecto'
-              required
-              type='number'
-            />
-            <Input
-              name='fechaInicio'
-              label='Fecha de Inicio'
-              required
-              type='date'
-            />
-            <Input name='fechaFin' label='Fecha de Fin' required type='date' />
-            <DropDown label='Líder' options={listaUsuarios} name='lider' required />
-            <Objetivos />
-            <LoadingButton text='Crear Proyecto' loading={false} disabled={false} />
-          </form>
-        </div>
+    <div>
+      <div className='H1-header'>Crear proyecto</div>
+      <p className='H2-header'>Ingresa la información para crear un nuevo proyecto.</p>
+      <div className='mt-10'>
+        <form className='flex flex-col items-left ml-14 h-90 w-80 H4-gray' ref={form} onChange={updateFormData} onSubmit={submitForm}>
+          <Input name='nombre' label='Nombre del Proyecto' required type='text' />
+          <Input
+            name='presupuesto'
+            label='Presupuesto del Proyecto'
+            required
+            type='number'
+          />
+          <Input
+            name='fechaInicio'
+            label='Fecha de Inicio'
+            required
+            type='date'
+          />
+          <Input name='fechaFin' label='Fecha de Fin' required type='date' />
+          <DropDown label='Líder' options={listaUsuarios} name='lider' required />
+          <Objetivos />
+          <LoadingButton text='Crear Proyecto' loading={false} disabled={false} />
+        </form>
       </div>
-    </PrivateRoute>
+    </div>
   );
 };
 
