@@ -13,8 +13,8 @@ const useStyles = makeStyles({
     table: {
         align: 'center',
         borderRadius: '10px',
-        width: '85%',
-        marginLeft: '7.5%',
+        width: '90%',
+        marginLeft: '5%',
         marginTop: '3%'
     },
     thead: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles({
     row: {
         '& > *': {
             fontSize: 15,
-            color: '#1a497a',
+            color: '#313C46',
             family: 'Quicksand,SemiBold'
         }
     }
@@ -59,6 +59,7 @@ const IndexInscripciones = () => {
             <div>
                 <div className='H1-header'>Inscripciones</div>
                 <p className='H2-header'>Aquí puedes ver y gestionar los estudiantes inscritos a un proyecto.</p>
+
                 <Table className={classes.table}>
                     <TableHead>
                         <TableRow className={classes.thead}>
