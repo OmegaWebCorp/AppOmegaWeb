@@ -6,7 +6,7 @@ import PrivateRoute from 'components/PrivateRoute';
 import { toast } from 'react-toastify';
 import LoadingButton from 'components/LoadingButton';
 import { GET_INSCRIPCIONES } from 'graphql/inscripciones/queries';
-import { APROBAR_INSCRIPCION } from 'graphql/inscripciones/mutations';
+import { APROBAR_INSCRIPCION, RECHAZAR_INSCRIPCION } from 'graphql/inscripciones/mutations';
 import PrivateComponent from 'components/PrivateComponent';
 
 const useStyles = makeStyles({
@@ -41,11 +41,22 @@ const IndexInscripciones = () => {
     const [aprobarInscripcion, { data: aprobarInscripcionData, loading: aprobarInscripcionLoading, error: aprobarInscripcionError }] = useMutation(APROBAR_INSCRIPCION, {
         onCompleted: (data) => {
             toast.success('Inscripción aprobada')
-        }
+        },
+        refetchQueries: [GET_INSCRIPCIONES]
+    });
+    const [rechazarInscripcion, { data: rechazarInscripcionData, loading: rechazarInscripcionLoading, error: rechazarInscripcionError }] = useMutation(RECHAZAR_INSCRIPCION, {
+        onCompleted: (data) => {
+            toast.error('Inscripción rechazada')
+        },
+        refetchQueries: [GET_INSCRIPCIONES]
     });
 
     const handleAprobarInscripcion = (id) => {
         aprobarInscripcion({ variables: { aprobarInscripcionId: id } })
+    }
+
+    const handlerRechazarInscripcion = (id) => {
+        rechazarInscripcion({ variables: { rechazarInscripcionId: id } })
     }
 
     useEffect(() => {
@@ -63,10 +74,10 @@ const IndexInscripciones = () => {
                 <Table className={classes.table}>
                     <TableHead>
                         <TableRow className={classes.thead}>
-                            <TableCell>Nombre del proyecto</TableCell>
-                            <TableCell>Nombre del estudiante</TableCell>
+                            <TableCell>Estudiante</TableCell>
+                            <TableCell>Proyecto</TableCell>
                             <TableCell>Estado</TableCell>
-                            <TableCell>Acciones</TableCell>
+                            <TableCell align='center'>Acciones</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -74,14 +85,20 @@ const IndexInscripciones = () => {
                             queryData.Inscripciones.map((Inscripcion) => {
                                 return (
                                     <TableRow className={classes.row} key={Inscripcion._id}>
-                                        <TableCell>{Inscripcion.proyecto.nombre}</TableCell>
                                         <TableCell>{Inscripcion.estudiante.nombre} {Inscripcion.estudiante.apellido}</TableCell>
+                                        <TableCell>{Inscripcion.proyecto.nombre}</TableCell>
                                         <TableCell>{Inscripcion.estado}</TableCell>
-                                        <TableCell>
+                                        <TableCell align='center'>
                                             <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']} >
                                                 <LoadingButton onClick={() => handleAprobarInscripcion(Inscripcion._id)}
                                                     text='APROBAR'
                                                 />
+                                                <LoadingButton
+                                                    bgColor="bg-slate"
+                                                    onClick={() => handlerRechazarInscripcion(Inscripcion._id)}
+                                                    text='RECHAZAR'
+                                                />
+
                                             </PrivateComponent>
                                         </TableCell>
                                     </TableRow>

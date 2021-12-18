@@ -8,6 +8,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import PrivateComponent from 'components/PrivateComponent';
 import DropDown from 'components/Dropdown';
 import LoadingButton from 'components/LoadingButton';
+import Input from 'components/Input';
 import { AccordionStyled, AccordionSummaryStyled, AccordionDetailsStyled, } from 'components/Accordion';
 // ** import contexts
 import { useUser } from 'context/userContext';
@@ -17,14 +18,17 @@ import useFormData from 'hooks/useFormData';
 import { PROYECTOS } from 'graphql/proyectos/queries';
 import { EDITAR_PROYECTO } from 'graphql/proyectos/mutations';
 import { CREAR_INSCRIPCION } from 'graphql/inscripciones/mutations';
+import { EDITAR_OBJETIVO } from 'graphql/proyectos/mutations';
 // ** import ROLES-enums
 import { Enum_EstadoProyecto } from 'utils/enums';
+import { Enum_FaseProyecto } from 'utils/enums';
+import { Enum_TipoObjetivo } from 'utils/enums';
 // ** imports estilos
 import { Dialog } from '@mui/material';
-
+import Paper from '@material-ui/core/Paper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen } from '@fortawesome/free-solid-svg-icons';
-import { Enum_FaseProyecto } from 'utils/enums';
+
 
 
 const Index = () => {
@@ -126,11 +130,25 @@ const AccordionProyecto = ({ proyecto }) => {
               <LoadingButton text='Ver Avances'/>
             </Link>
           </div>
+          <div className='H2-header items-left'><b>Número de inscritos</b>
+            <div className='text-gray-dark'> {proyecto.inscripciones.filter(inscripcion => inscripcion.estado === 'ACEPTADO').length} </div>
+          </div>
           <div className='flex H4-gray items-left'>
-            {proyecto.objetivos.map((objetivo) => {
-              return <Objetivo tipo={objetivo.tipo} descripcion={objetivo.descripcion} />;
+            {proyecto.objetivos.map((objetivo, index) => {
+              return <Objetivo
+                key={index}
+                tipo={objetivo.tipo}
+                descripcion={objetivo.descripcion}
+                idProyecto={proyecto._id}
+                indexObjetivo={index}
+              />;
             })}
-          </div >
+          </div>
+          <Link className='ml-5' to={`/avances/${proyecto._id}`}>
+            <LoadingButton
+              text='Ver Avances'
+            />
+          </Link>
         </AccordionDetailsStyled>
       </AccordionStyled>
 
@@ -181,15 +199,76 @@ const FormEditProyecto = ({ _id, estado, fase, onCloseEditForm }) => {
     </div>
   );
 };
+
+const FormEditObjetivo = ({ idProyecto, indexObjetivo, descripcion, tipo, onCloseEditForm }) => {
+  const { form, formData, updateFormData } = useFormData();
+  const [editarObjetivo, { data: dataMutation, loading, error }] = useMutation(EDITAR_OBJETIVO, {
+    refetchQueries: [PROYECTOS],
+    onCompleted: () => {
+      toast.success('Objetivo editado correctamente')
+    },
+    onError: () => {
+      toast.error('El objetivo no pudo ser editado')
+    }
+  });
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    editarObjetivo({
+      variables: {
+        idProyecto,
+        indexObjetivo,
+        campos: formData,
+      },
+    });
+    onCloseEditForm()
+  };
+  return (
+    <div className='p-4'>
+      <h1 className='Header-dialog'>Modificar Objetivo del Proyecto</h1>
+      <form
+        ref={form}
+        onChange={updateFormData}
+        onSubmit={submitForm}
+        className='flex flex-col ml-4 h-90 w-80 H4-gray'
+      >
+        <Input label='Descripción' name='descripcion' defaultValue={descripcion} required={true} type='textarea' />
+        <DropDown label='Tipo' name='tipo' options={Enum_TipoObjetivo} defaultValue={tipo} />
+        <LoadingButton disabled={false} loading={loading} text='Confirmar' />
+      </form>
+    </div>
+  )
+}
+
 {/*** Estilos internos accordion OBJETIVOS ***/ }
-const Objetivo = ({ tipo, descripcion }) => {
+const Objetivo = ({ tipo, descripcion, idProyecto, indexObjetivo }) => {
+  const [showEditObjectDialog, setShowEditObjectDialog] = useState(false);
+  const onCloseEditObjectiveForm = () => {
+    setShowEditObjectDialog(false)
+  }
   return (
     <div className='mx-5 my-4 p-8 rounded-lg border border-gray-light flex flex-col items-left justify-center shadow-xl'>
       <div className='text-lg font-bold'>{tipo}</div>
       <div>{descripcion}</div>
-      <PrivateComponent roleList={['ADMINISTRADOR']}>
-        <div>Editar</div>
+      <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
+        <div className="cursor-pointer hover:underline underline"
+          onClick={() => {
+            setShowEditObjectDialog(true)
+          }}
+        >Editar</div>
       </PrivateComponent>
+      <Dialog
+        open={showEditObjectDialog}
+        onClose={() => {
+          setShowEditObjectDialog(false)
+        }}
+      >
+        <FormEditObjetivo idProyecto={idProyecto}
+          indexObjetivo={indexObjetivo}
+          descripcion={descripcion}
+          tipo={tipo}
+          onCloseEditForm={onCloseEditObjectiveForm} />
+      </Dialog>
     </div>
   );
 };
@@ -222,7 +301,10 @@ const InscripcionProyecto = ({ idProyecto, estado, inscripciones }) => {
   return (
     <>
       {estadoInscripcion !== '' ? (
-        <span>Ya estas inscrito en este proyecto y el estado es {estadoInscripcion}</span>
+        <Paper elevation={3} variant="outlined" square className="bg-gray-dark p-5">
+          <span>Ya estas inscrito en este proyecto y el estado es {estadoInscripcion}</span>
+        </Paper>
+
       ) : (
         <LoadingButton
           onClick={() => confirmarInscripcion()}

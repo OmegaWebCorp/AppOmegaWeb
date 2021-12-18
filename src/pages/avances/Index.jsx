@@ -14,8 +14,15 @@ import useFormData from 'hooks/useFormData';
 // ** import gql mutations/queries
 import { GET_AVANCES } from 'graphql/avances/queries';
 import { CREAR_AVANCE } from 'graphql/avances/mutations';
+import { GET_PROYECTO } from 'graphql/proyectos/queries'
 // ** imports estilos
 import { Dialog } from '@mui/material';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Divider from '@mui/material/Divider';
+import ListItemText from '@mui/material/ListItemText';
+
+import { Enum_Rol } from 'utils/enums';
 
 /***** Traer el nombre del Proyecto ******/
 const IndexAvance = () => {
@@ -28,19 +35,39 @@ const IndexAvance = () => {
         },
     });
 
+    const { data: proyectoData, loading: proyectoLoading } = useQuery(GET_PROYECTO, {
+        variables: {
+            id: projectid
+        }
+    })
+
     if (loading) return <div>Loading...</div>;
 
     return (
         <div>
             <div className='H1-header'>Avances del proyecto</div>
-            <div className='H2-header'>
-                {projectid}</div>
-            <div className='self-start flew flex-col w-full h-full items-center justify-center p-10 ml-5'>
-                <Link className='font-Quicksand font-medium text-lg text-gray-dark hover:underline' to='/index'>
-                    <i className='fas fa-arrow-left hover:text-green mr-2' />Volver
-                </Link>
-            </div>    
+            {
+                proyectoData.Proyecto &&
+                <>
+                    <div className='self-start flew flex-col w-full h-full items-center justify-center p-10 ml-5'>
+                        <Link className='font-Quicksand font-medium text-lg text-gray-dark hover:underline' to='/index'>
+                            <i className='fas fa-arrow-left hover:text-green mr-2' />Volver
+                        </Link>
+                    </div>
+                    <div className='H2-header'><b>Proyecto: </b>{proyectoData.Proyecto.nombre}</div>
+                    <p className='H2-header'>{proyectoData.Proyecto._id}</p>
+                </>
+            }
             <div className='flew flex-col w-full h-full items-center justify-center p-10 ml-5'>
+
+                {data.Avances.length === 0 ? (
+                    <div>No hay avances para este proyecto</div>
+                ) : (
+                    <ListaAvances avances={data.Avances}></ListaAvances>
+                )}
+                <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+                    <CrearAvance proyecto={projectid} setOpenDialog={setOpenDialog} />
+                </Dialog>
                 <button
                     onClick={() => setOpenDialog(true)}
                     className='Button-2'
@@ -48,14 +75,6 @@ const IndexAvance = () => {
                 >
                     Crear nuevo avance
                 </button>
-                {/*data.Avances.length === 0 ? (
-                <span>No tienes avances para este proyecto</span>
-            ) : (
-                data.Avances.map((avance) => <IndexAvance avance={avance} />)
-            )*/}
-                <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-                    <CrearAvance proyecto={projectid} setOpenDialog={setOpenDialog} />
-                </Dialog>
             </div>
         </div>
     );
@@ -101,5 +120,38 @@ const CrearAvance = ({ proyecto, setOpenDialog }) => {
     );
 };
 
+const ListaAvances = ({ avances }) => {
+    return (
+        <List sx={{ width: '100%', maxWidth: 800, bgcolor: 'background.paper' }}>
+            {
+                avances && avances.map(avance => {
+                    return (
+                        <DescripcionAvance key={avance._id} avance={avance}></DescripcionAvance>
+                    )
+                })
+            }
+        </List>
+    )
+}
+
+const DescripcionAvance = ({ avance }) => {
+    return (
+        <>
+            <ListItem alignItems="flex-start">
+                <ListItemText
+                    primary={avance.descripcion}
+                    secondary={
+                        <>
+                            <p>{`${avance.creadoPor.nombre} ${avance.creadoPor.apellido}`}</p>
+                            <p>{Enum_Rol[avance.creadoPor.rol]}</p>
+                            <p>{avance.fecha}</p>
+                        </>
+                    }
+                />
+            </ListItem>
+            <Divider variant="inset" component="li" />
+        </>
+    )
+}
 
 export default IndexAvance;
