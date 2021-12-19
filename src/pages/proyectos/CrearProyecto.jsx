@@ -13,17 +13,34 @@ import { ObjContext, useObj } from 'context/objContext';
 import { CREAR_PROYECTO } from 'graphql/proyectos/mutations';
 import PrivateRoute from 'components/PrivateRoute';
 import { PROYECTOS } from 'graphql/proyectos/queries';
+import { useUser } from 'context/userContext';
+import { GET_USUARIO } from 'graphql/usuarios/queries';
+
+import PrivateComponent from 'components/PrivateComponent';
 
 
 
 const CrearProyecto = () => {
   const navigate = useNavigate();
   const { form, formData, updateFormData } = useFormData();
+  const { userData, setUserData } = useUser();
+  const {
+    data: queryData,
+    error: queryError,
+    loading: queryLoading,
+    refetch,
+  } = useQuery(GET_USUARIO, {
+    variables: {
+      _id: userData._id,
+    },
+  });
   const [listaUsuarios, setListaUsuarios] = useState({});
+  
+ 
 
   const { data, loading } = useQuery(GET_USUARIOS, {
     variables: {
-      filtro: { rol: 'LIDER', estado: 'AUTORIZADO' },
+      filtro: { rol: 'LIDER', estado: 'AUTORIZADO'  },
     },
   });
 
@@ -50,11 +67,17 @@ const CrearProyecto = () => {
   }, [data]);
 
   const submitForm = (e) => {
+    
+    if(queryData.Usuario.rol ==='LIDER'){
+
+      formData.lider= userData._id
+    }
     e.preventDefault();
 
     formData.objetivos = Object.values(formData.objetivos);
     formData.presupuesto = parseFloat(formData.presupuesto);
 
+   
     crearProyecto({
       variables: formData,
     });
@@ -83,7 +106,10 @@ const CrearProyecto = () => {
               type='date'
             />
             <Input name='fechaFin' label='Fecha de Fin' required type='date' />
+            <PrivateComponent roleList={['ADMINISTRADOR']}>
             <DropDown label='Líder' options={listaUsuarios} name='lider' required />
+            </PrivateComponent >
+            
             <Objetivos />
             <LoadingButton text='Crear Proyecto' loading={crearProyectoLoading} />
           </form>

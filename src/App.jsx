@@ -19,7 +19,7 @@ import CrearProyecto from 'pages/proyectos/CrearProyecto';
 import IndexUsuarios from 'pages/usuarios/Index';
 import EditarUsuario from 'pages/usuarios/EditarUsuario';
 import IndexInscripciones from 'pages/inscripciones/Index';
-import IndexAvance from 'pages/avances/Index';
+import IndexAvance from 'pages/Avances/Index';
 // ** imports estilos
 import 'styles/globals.css';
 
